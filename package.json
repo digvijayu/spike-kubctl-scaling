@@ -1,0 +1,23 @@
+{
+  "name": "spike-kubctl-scaling",
+  "version": "1.0.0",
+  "description": "Spike to test auto scaling of the pods",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digvijayu/spike-kubctl-scaling.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/digvijayu/spike-kubctl-scaling/issues"
+  },
+  "homepage": "https://github.com/digvijayu/spike-kubctl-scaling#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
