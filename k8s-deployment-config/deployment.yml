@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spike-deployment-config
+  labels:
+    rx-name: spike-deployment-config
+spec:
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      rx-name: spike-deployment-config
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        rx-name: spike-deployment-config
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: spike-deployment-config
+        image: ghcr.io/digvijayu/spike-kubctl-scaling:main
+        imagePullPolicy: Always
+        env:
+        - name: ANY_ENV_VAR
+          value: var_value
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+          - name: secrets
+            mountPath: "/secrets"
+            readOnly: true
+        resources:
+          requests:
+            memory: 150M
+            cpu: 1m
+          limits:
+            memory: 200M
+            cpu: 500m
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: spike-deployment-config
+  labels:
+    rx-name: spike-deployment-config
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spike-deployment-config
+  metrics:
+    - resource:
+        name: cpu
+        target:
+          type: AverageValue
+          averageValue: 375m
+      type: Resource
+  minReplicas: 1
+  maxReplicas: 5
+
