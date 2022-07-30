@@ -11,3 +11,11 @@ Nothing fancy here node container simple install and start
 Github action builds and uploads the container image to the github container registry
 
 # 4. Added K8s deployment config
+I am using colima cluster but feel free to used anything you'd like since rest of the commands are just kubectl commands.
+```
+colima start --with-kubernetes
+```
+
+```
+kubectl apply -f ./k8s-deployment-config/deployment.yml
+```
